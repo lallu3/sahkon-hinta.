@@ -1,0 +1,61 @@
+name: Päivitä sähkön hinta
+
+on:
+  # Ajetaan tunnin välein, 5 minuuttia yli. Kellonajat ovat UTC-aikaa,
+  # mutta koska ajo tapahtuu joka tunti, se ei haittaa.
+  schedule:
+    - cron: "5 * * * *"
+  # Sallii ajon käynnistämisen käsin GitHubin Actions-välilehdeltä.
+  workflow_dispatch:
+  # Ajetaan myös aina, kun muutat asetuksia generate.py-tiedostossa.
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Jos edellinen ajo on kesken, odotetaan sen valmistumista.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  rakenna:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hae tiedostot
+        uses: actions/checkout@v4
+
+      - name: Asenna Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Luo sivu
+        run: python generate.py
+
+      - name: Kokoa julkaistava kansio
+        run: |
+          mkdir -p site
+          mv index.html site/
+
+      - name: Valmistele Pages
+        uses: actions/configure-pages@v5
+
+      - name: Lataa sivu
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  julkaise:
+    needs: rakenna
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.julkaisu.outputs.page_url }}
+    steps:
+      - name: Julkaise GitHub Pagesiin
+        id: julkaisu
+        uses: actions/deploy-pages@v4
