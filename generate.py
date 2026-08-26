@@ -41,7 +41,7 @@ SKAALA = 1.0
 #   "tumma"       — tumma tausta (oletus)
 #   "vaalea"      — vaalea tausta
 #   "lapinakyva"  — ei omaa taustaa, DAKboardin taustakuva näkyy läpi
-TEEMA = "tumma"
+TEEMA = "lapinakyva"
 
 AIKAVYOHYKE = "Europe/Helsinki"
 
