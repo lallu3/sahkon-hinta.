@@ -20,38 +20,57 @@ from zoneinfo import ZoneInfo
 # ASETUKSET — näitä voit muuttaa itse
 # ---------------------------------------------------------------------------
 
-# Kiinteä lisä sentteinä kilowattitunnilta
-# Tällä hetkellä: marginaali 0,49 snt/kWh.
+# Kiinteä lisä sentteinä kilowattitunnilta, arvonlisävero mukaan luettuna.
+# Tällä hetkellä: marginaali 0,49 snt/kWh + ALV 25,5 % = 0,61 snt/kWh.
 # Jos lisäät myöhemmin siirron ja sähköveron, kasvata tätä lukua.
-KIINTEA_LISA_SNT = 0.49
+KIINTEA_LISA_SNT = 0.61
 
 # Sivun alareunassa näkyvä selite. Päivitä, jos muutat lukua yllä.
 LISAN_SELITE = "Sisältää ALV 25,5 % ja marginaalin 0,49 snt/kWh"
 
 # Värien raja-arvot kokonaishinnalle (snt/kWh).
 # Alle HALPA_RAJA = vihreä, väliltä = keltainen, yli KALLIS_RAJA = punainen.
-HALPA_RAJA = 8.9
-KALLIS_RAJA = 9.0
+HALPA_RAJA = 5.0
+KALLIS_RAJA = 10.0
 
 # Tekstien kokojen yleiskerroin. Kasvata, jos teksti on liian pientä
 # DAKboard-lohkossa; pienennä, jos se ei mahdu.
 SKAALA = 1.0
+
+# Ulkoasu. Vaihtoehdot:
+#   "tumma"       — tumma tausta (oletus)
+#   "vaalea"      — vaalea tausta
+#   "lapinakyva"  — ei omaa taustaa, DAKboardin taustakuva näkyy läpi
+TEEMA = "tumma"
 
 AIKAVYOHYKE = "Europe/Helsinki"
 
 # priceResolution=60 antaa tuntihinnat varttihintojen sijaan.
 API_URL = "https://api.spot-hinta.fi/TodayAndDayForward?priceResolution=60"
 
-VARIT = {
-    "tausta": "#12161c",
-    "viiva": "#2a333f",
-    "teksti": "#e8ecef",
-    "vaimea": "#7c8794",
-    "halpa": "#4fa96b",
-    "keski": "#c9a227",
-    "kallis": "#c4553d",
-    "nyt": "#e8ecef",
+TEEMAT = {
+    "tumma": {
+        "tausta": "#12161c", "viiva": "#2a333f",
+        "teksti": "#e8ecef", "vaimea": "#7c8794",
+        "halpa": "#4fa96b", "keski": "#c9a227", "kallis": "#c4553d",
+        "nyt": "#e8ecef", "varjo": "none",
+    },
+    "vaalea": {
+        "tausta": "#f4f5f7", "viiva": "#d3d8de",
+        "teksti": "#1c2128", "vaimea": "#69727d",
+        "halpa": "#3d8a55", "keski": "#9e7c18", "kallis": "#b04630",
+        "nyt": "#1c2128", "varjo": "none",
+    },
+    "lapinakyva": {
+        "tausta": "transparent", "viiva": "rgba(255,255,255,0.28)",
+        "teksti": "#ffffff", "vaimea": "rgba(255,255,255,0.78)",
+        "halpa": "#5cc17b", "keski": "#e0b52e", "kallis": "#e06a4f",
+        "nyt": "#ffffff",
+        "varjo": "0 1px 3px rgba(0,0,0,0.85), 0 0 12px rgba(0,0,0,0.6)",
+    },
 }
+
+VARIT = TEEMAT[TEEMA]
 
 VIIKONPAIVAT = ["ma", "ti", "ke", "to", "pe", "la", "su"]
 
@@ -154,6 +173,7 @@ def rakenna_html(tunnit, nyt):
         "teksti": VARIT["teksti"],
         "vaimea": VARIT["vaimea"],
         "nyt": VARIT["nyt"],
+        "varjo": VARIT["varjo"],
         "ylaosuus": "%.3f" % ylaosuus,
         "alaosuus": "%.3f" % alaosuus,
         "f_iso": px(76), "f_yksikko": px(17), "f_eyebrow": px(11),
@@ -252,6 +272,7 @@ body {
   -webkit-flex-direction: column; flex-direction: column;
   padding: %(p_body)s %(p_sivu)s;
   -webkit-box-sizing: border-box; box-sizing: border-box;
+  text-shadow: %(varjo)s;
 }
 .ylaosa {
   display: -webkit-flex; display: flex;
