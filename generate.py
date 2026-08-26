@@ -20,18 +20,18 @@ from zoneinfo import ZoneInfo
 # ASETUKSET — näitä voit muuttaa itse
 # ---------------------------------------------------------------------------
 
-# Kiinteä lisä sentteinä kilowattitunnilta, arvonlisävero mukaan luettuna.
-# Tällä hetkellä: marginaali 0,49 snt/kWh + ALV 25,5 % = 0,61 snt/kWh.
+# Kiinteä lisä sentteinä kilowattitunnilta
+# Tällä hetkellä: marginaali 0,49 snt/kWh 
 # Jos lisäät myöhemmin siirron ja sähköveron, kasvata tätä lukua.
-KIINTEA_LISA_SNT = 0.61
+KIINTEA_LISA_SNT = 0.49
 
 # Sivun alareunassa näkyvä selite. Päivitä, jos muutat lukua yllä.
 LISAN_SELITE = "Sisältää ALV 25,5 % ja marginaalin 0,49 snt/kWh"
 
 # Värien raja-arvot kokonaishinnalle (snt/kWh).
 # Alle HALPA_RAJA = vihreä, väliltä = keltainen, yli KALLIS_RAJA = punainen.
-HALPA_RAJA = 5.0
-KALLIS_RAJA = 10.0
+HALPA_RAJA = 9.0
+KALLIS_RAJA = 9.1
 
 # Tekstien kokojen yleiskerroin. Kasvata, jos teksti on liian pientä
 # DAKboard-lohkossa; pienennä, jos se ei mahdu.
