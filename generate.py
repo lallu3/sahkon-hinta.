@@ -41,7 +41,7 @@ LISAN_SELITE = None
 # Värien raja-arvot kokonaishinnalle (snt/kWh).
 # Alle HALPA_RAJA = vihreä, väliltä = keltainen, yli KALLIS_RAJA = punainen.
 HALPA_RAJA = 9.0
-KALLIS_RAJA = 19.0
+KALLIS_RAJA = 9.0
 
 # Kaavioon piirrettävä kiinteä vertailuviiva (snt/kWh, kokonaishinta).
 # Viiva näkyy molempien päivien kohdalla. Aseta None, jos et halua viivaa.
