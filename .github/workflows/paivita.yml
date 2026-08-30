@@ -1,10 +1,19 @@
 name: Päivitä sähkön hinta
 
 on:
-  # Ajetaan tunnin välein, 5 minuuttia yli. Kellonajat ovat UTC-aikaa,
-  # mutta koska ajo tapahtuu joka tunti, se ei haittaa.
+  # Ajetaan kolmesti tunnissa. GitHubin ajastin on "parhaan yrityksen"
+  # palvelu: ajoja viivästyy ruuhka-aikoina ja osa pudotetaan kokonaan,
+  # eikä pudotettuja yritetä uudelleen. Tunnin alku on ruuhkaisin hetki,
+  # joten ajot on sijoitettu pariton-minuuttisiin kohtiin sen ulkopuolelle.
+  # Kolme yritystä tunnissa tekee siitä epätodennäköistä, että yksikään
+  # tunti jäisi kokonaan päivittämättä.
+  #
+  # Julkisissa arkistoissa Actions-minuutit ovat maksuttomia, joten
+  # tiheämpi ajo ei maksa mitään.
   schedule:
-    - cron: "5 * * * *"
+    - cron: "11 * * * *"
+    - cron: "31 * * * *"
+    - cron: "51 * * * *"
   # Sallii ajon käynnistämisen käsin GitHubin Actions-välilehdeltä.
   workflow_dispatch:
   # Ajetaan myös aina, kun muutat asetuksia generate.py-tiedostossa.
